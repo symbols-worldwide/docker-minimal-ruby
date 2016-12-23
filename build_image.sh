@@ -19,3 +19,5 @@ do
 done
 
 docker tag ${REPO}:${LATEST} ${REPO}:latest
+docker push ${REPO}
+
