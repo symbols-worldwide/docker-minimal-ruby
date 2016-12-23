@@ -15,7 +15,7 @@ ENV DEV_PACKAGES gcc gnupg musl-dev linux-headers zlib-dev openssl-dev
 
 RUN apk update && \
     apk upgrade && \
-    apk add $PACKAGES $DEV_PACKAGES && \
+    apk add --no-cache $PACKAGES $DEV_PACKAGES && \
     addgroup $RVM_GROUP && \
     gpg --keyserver hkp://keys.gnupg.net --recv-keys \
       409B6B1796C275462A1703113804BB82D39DC0E3 && \
@@ -27,7 +27,7 @@ RUN apk update && \
     bash -c "source /etc/profile.d/rvm.sh && rvm install $RUBY_VERSION --disable-binary --autolibs=0 --movable" && \
     cd && \
     apk del $DEV_PACKAGES && \
-    rm -rf stable.tar.gz rvm-stable /var/cache/apk* && \
+    rm -rf stable.tar.gz rvm-stable /var/cache/apk/* && \
     rm -rf /usr/local/rvm/src/* /usr/local/rvm/archives/* /usr/local/rvm/log/*
 
 ENTRYPOINT ["/bin/bash","-lc"]
