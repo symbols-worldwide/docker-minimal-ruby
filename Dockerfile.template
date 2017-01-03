@@ -1,15 +1,14 @@
-FROM alpine:3.4
+FROM alpine:3.5
 
 MAINTAINER Simon Detheridge <simon@widgit.com>
 
-ARG ruby=2.3.0
-
-ENV RUBY_VERSION $ruby
 ENV RVM_USER root
 ENV RVM_GROUP rvm
 
 ENV PACKAGES gnupg curl bash procps musl zlib openssl libssl1.0 patch make
 ENV DEV_PACKAGES gcc gnupg musl-dev linux-headers zlib-dev openssl-dev
+
+ENV RUBY_VERSION %RUBY%
 
 # Grab RVM, install, compile Ruby and nuke the build tools
 
