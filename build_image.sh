@@ -16,7 +16,9 @@ do
   if [ "$MAJOR" != "2.0" ]; then
     cp Dockerfile.template Dockerfile
     sed -i "s/%RUBY%/${MINOR}/" Dockerfile
-    docker build --pull --rm -t ${REPO}:${MINOR} -t ${REPO}:${MAJOR} .
+    docker build --pull --rm -t ${REPO}:${MINOR} -t ${REPO}:${MAJOR} -t ${REPO}:${MINOR}_3.5 -t ${REPO}:${MAJOR}_3.5 .
+    sed -i "s/alpine:3.5/alpine:3.4/" Dockerfile
+    docker build --pull --rm -t ${REPO}:${MINOR}_3.4 -t ${REPO}:${MAJOR}_3.4 .
   fi
 done
 
