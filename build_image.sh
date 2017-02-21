@@ -6,7 +6,7 @@ rvm get head
 rvm reload
 
 LATEST=2.4
-REPO=gh2k/minimal-ruby
+REPO=symbols/minimal-ruby
 
 for RUBY in `rvm list known_strings | grep '^ruby-2\.'` 
 do
