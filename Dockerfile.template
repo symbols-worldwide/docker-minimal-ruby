@@ -1,12 +1,12 @@
-FROM alpine:3.5
+FROM alpine:3.7
 
 MAINTAINER Simon Detheridge <simon@widgit.com>
 
 ENV RVM_USER root
 ENV RVM_GROUP rvm
 
-ENV PACKAGES gnupg curl bash procps musl zlib openssl libssl1.0 patch make
-ENV DEV_PACKAGES gcc gnupg musl-dev linux-headers zlib-dev openssl-dev
+ENV PACKAGES gnupg curl bash procps musl zlib openssl libssl1.0 patch make readline
+ENV DEV_PACKAGES gcc g++ gnupg musl-dev linux-headers zlib-dev openssl-dev readline-dev
 
 ENV RUBY_VERSION %RUBY%
 
@@ -16,21 +16,21 @@ RUN apk update && \
     apk upgrade && \
     apk add --no-cache $PACKAGES $DEV_PACKAGES && \
     addgroup $RVM_GROUP && \
-    gpg --keyserver hkp://keys.gnupg.net --recv-keys \
-      409B6B1796C275462A1703113804BB82D39DC0E3 && \
+    curl -sSL https://rvm.io/mpapis.asc | gpg --import - && \
     cd && \
     curl -L -o stable.tar.gz \
       https://github.com/rvm/rvm/archive/stable.tar.gz && \
     gunzip -c stable.tar.gz | tar xf - && \
     cd rvm-stable && ./scripts/install && \
-    bash -c "source /etc/profile.d/rvm.sh && rvm install $RUBY_VERSION --disable-binary --autolibs=0 --movable" && \
+    bash -c "source /etc/profile.d/rvm.sh && ac_cv_func_isnan=yes ac_cv_func_isinf=yes rvm install $RUBY_VERSION --disable-binary --autolibs=0 --movable && gem install bundler" && \
     cd && \
     apk del $DEV_PACKAGES && \
     rm -rf stable.tar.gz rvm-stable /var/cache/apk/* && \
     rm -rf /usr/local/rvm/src/* /usr/local/rvm/archives/* /usr/local/rvm/log/*
 
-ENTRYPOINT ["/bin/bash","-lc"]
 CMD ["/bin/bash"]
+
+ENV PATH "/usr/local/rvm/wrappers/default:${PATH}"
 
 RUN echo 'source /etc/profile > /dev/null 2>&1' >> ~/.bashrc
 

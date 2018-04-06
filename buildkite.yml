@@ -1,0 +1,5 @@
+steps:
+  - command: ./build_image.sh
+    name: build images
+    agents:
+      linux: true
