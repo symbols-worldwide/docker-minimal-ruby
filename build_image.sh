@@ -3,7 +3,7 @@
 rvm get head
 rvm reload
 
-LATEST=2.5
+LATEST=2.6
 REPO=symbols/minimal-ruby
 
 for RUBY in `rvm list known_strings | grep '^ruby-2\.'`
@@ -12,8 +12,8 @@ do
   MAJOR=${MINOR%.*}
   POINT=${RUBY##*.}
 
-  ALPINES="3.7 3.6 3.5 3.4"
-  LATEST_ALPINE="3.7"
+  ALPINES="3.9 3.8 3.7 3.6 3.5 3.4"
+  LATEST_ALPINE="3.9"
   LAST_ALPINE=$LATEST_ALPINE
   LAST_MAJOR=""
 
