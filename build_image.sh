@@ -42,7 +42,7 @@ do
         if [ "$LAST_MAJOR" != "$MAJOR" ]; then
           echo "- tagging ${REPO}:${MINOR}_${ALPINE} as ${REPO}:${MAJOR}_${ALPINE}"
           docker tag ${REPO}:${MINOR}_${ALPINE} ${REPO}:${MAJOR}_${ALPINE}
-          TAGLIST="${TAGLIST} {$REPO}:${MAJOR}_{$ALPINE}"
+          TAGLIST="${TAGLIST} ${REPO}:${MAJOR}_${ALPINE}"
           if [ "$ALPINE" == "$LATEST_ALPINE" ]; then
             echo "- tagging ${REPO}:${MAJOR}_${ALPINE} as ${REPO}:${MAJOR}"
             docker tag ${REPO}:${MAJOR}_${ALPINE} ${REPO}:${MAJOR}
