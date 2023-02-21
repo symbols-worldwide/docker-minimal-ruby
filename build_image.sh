@@ -8,6 +8,7 @@ REPO=symbols/minimal-ruby
 
 rvm list known_strings | egrep '^ruby-(3\.|2\.7)'
 TAGLIST="${REPO}:latest"
+LATEST_TAG=z
 
 for RUBY in `rvm list known_strings | egrep '^ruby-(3\.|2.7\.)'`
 do
@@ -19,8 +20,6 @@ do
   LATEST_ALPINE="3.17"
   LAST_ALPINE=$LATEST_ALPINE
   LAST_MAJOR=""
-
-  LATEST_TAG=z
 
 #  while [ "x$POINT" != "x-1" ]
 #  do
