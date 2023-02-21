@@ -7,6 +7,7 @@ rvm reload
 REPO=symbols/minimal-ruby
 
 rvm list known_strings | egrep '^ruby-(3\.|2\.7)'
+TAGLIST="${REPO}:latest"
 
 for RUBY in `rvm list known_strings | egrep '^ruby-(3\.|2.7\.)'`
 do
@@ -20,8 +21,6 @@ do
   LAST_MAJOR=""
 
   LATEST_TAG=z
-
-  TAGLIST="${REPO}:latest"
 
 #  while [ "x$POINT" != "x-1" ]
 #  do
