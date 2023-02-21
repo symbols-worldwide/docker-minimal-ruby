@@ -3,8 +3,10 @@
 rvm get head
 rvm reload
 
-LATEST=2.6
+#LATEST=2.6
 REPO=symbols/minimal-ruby
+
+rvm list known_strings | egrep '^ruby-(3\.|2\.7)'
 
 for RUBY in `rvm list known_strings | egrep '^ruby-(3\.|2.7\.)'`
 do
@@ -17,8 +19,10 @@ do
   LAST_ALPINE=$LATEST_ALPINE
   LAST_MAJOR=""
 
-  while [ "x$POINT" != "x-1" ]
-  do
+  LATEST_TAG=z
+
+#  while [ "x$POINT" != "x-1" ]
+#  do
     cp Dockerfile.template Dockerfile
     sed -i "s/%RUBY%/${MINOR}/" Dockerfile
   
@@ -41,22 +45,25 @@ do
           fi
         fi
         echo -e "\033[0;32m- Building Ruby $MINOR for Alpine $ALPINE: \033[1mSUCCESS\033[21m"
+        if [ "$LATEST_TAG" == "z" ]; then
+          LATEST_TAG="${REPO}:${MINOR}_${ALPINE}"
+        fi
       else
         echo -e "\033[0;31m- Building Ruby $MINOR for Alpine $ALPINE: \033[1mFAILED\033[21m"
       fi
       LAST_ALPINE=$ALPINE
     done
-    LAST_MAJOR=$MAJOR
-    let POINT=$POINT-1
-    MINOR="${MAJOR}.${POINT}"
-  done
+#    LAST_MAJOR=$MAJOR
+#    let POINT=$POINT-1
+#    MINOR="${MAJOR}.${POINT}"
+#  done
 done
   
 if [ "x$DOCKERHUB_USERNAME" != "x" ]; then
   echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
 fi
 
-docker tag ${REPO}:${LATEST} ${REPO}:latest
+docker tag ${LATEST_TAG} ${REPO}:latest
 echo -e "\033[0;34mAll done. Pushing changes."
 docker push ${REPO}
 
