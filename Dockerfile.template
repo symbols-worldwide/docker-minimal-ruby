@@ -5,7 +5,7 @@ MAINTAINER Simon Detheridge <simon@widgit.com>
 ENV RVM_USER root
 ENV RVM_GROUP rvm
 
-ENV PACKAGES gnupg curl bash procps musl zlib openssl libssl1.0 patch make readline
+ENV PACKAGES gnupg curl bash procps musl zlib openssl libssl1.1 patch make readline
 ENV DEV_PACKAGES gcc g++ gnupg musl-dev linux-headers zlib-dev openssl-dev readline-dev
 
 ENV RUBY_VERSION %RUBY%
