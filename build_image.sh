@@ -24,13 +24,14 @@ do
 
 #  while [ "x$POINT" != "x-1" ]
 #  do
-    cp Dockerfile.template Dockerfile
-    sed -i "s/%RUBY%/${MINOR}/" Dockerfile
   
     for ALPINE in $ALPINES
     do
+      cp Dockerfile.template Dockerfile
+      sed -i "s/%RUBY%/${MINOR}/" Dockerfile
+
       echo -e "\033[0;33m\033[1mBuilding Ruby $MINOR for Alpine $ALPINE\033[21m\033[34m"
-      sed -i "s/alpine:$LAST_ALPINE/alpine:$ALPINE/" Dockerfile
+      sed -i "s/alpine:ALPINE_VERSION/alpine:$ALPINE/" Dockerfile
       docker build --pull --rm -t ${REPO}:${MINOR}_${ALPINE} . >> log/build_${MINOR}_${ALPINE}.log 2>&1
       if [ "x$?" == "x0" ]; then
         if [ "$ALPINE" == "$LATEST_ALPINE" ]; then
