@@ -21,6 +21,8 @@ do
 
   LATEST_TAG=z
 
+  TAGLIST="${REPO}:latest"
+
 #  while [ "x$POINT" != "x-1" ]
 #  do
     cp Dockerfile.template Dockerfile
@@ -35,13 +37,16 @@ do
         if [ "$ALPINE" == "$LATEST_ALPINE" ]; then
           echo "- tagging ${REPO}:${MINOR}_${ALPINE} as ${REPO}:${MINOR}"
           docker tag ${REPO}:${MINOR}_${ALPINE} ${REPO}:${MINOR}
+          TAGLIST="${TAGLIST} ${REPO}:${MINOR}_${ALPINE} ${REPO}:${MINOR}"
         fi
         if [ "$LAST_MAJOR" != "$MAJOR" ]; then
           echo "- tagging ${REPO}:${MINOR}_${ALPINE} as ${REPO}:${MAJOR}_${ALPINE}"
           docker tag ${REPO}:${MINOR}_${ALPINE} ${REPO}:${MAJOR}_${ALPINE}
+          TAGLIST="${TAGLIST} {$REPO}:${MAJOR}_{$ALPINE}"
           if [ "$ALPINE" == "$LATEST_ALPINE" ]; then
             echo "- tagging ${REPO}:${MAJOR}_${ALPINE} as ${REPO}:${MAJOR}"
             docker tag ${REPO}:${MAJOR}_${ALPINE} ${REPO}:${MAJOR}
+            TAGLIST="${TAGLIST} ${REPO}:${MAJOR}"
           fi
         fi
         echo -e "\033[0;32m- Building Ruby $MINOR for Alpine $ALPINE: \033[1mSUCCESS\033[21m"
@@ -67,7 +72,8 @@ fi
 docker tag ${LATEST_TAG} ${REPO}:latest
 docker image ls -a
 echo -e "\033[0;34mAll done. Pushing changes."
-docker push ${REPO}
+echo ${TAGLIST}
+for i in ${TAGLIST} ; do docker push ${i} ; done
 
 echo -e "\033[1m\033[0;32m- Finished."
 echo -e "\033[0m"
