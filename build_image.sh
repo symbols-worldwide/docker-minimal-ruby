@@ -47,6 +47,7 @@ do
         echo -e "\033[0;32m- Building Ruby $MINOR for Alpine $ALPINE: \033[1mSUCCESS\033[21m"
         if [ "$LATEST_TAG" == "z" ]; then
           LATEST_TAG="${REPO}:${MINOR}_${ALPINE}"
+          echo "- Will set :latest tag to ${LATEST_TAG}"
         fi
       else
         echo -e "\033[0;31m- Building Ruby $MINOR for Alpine $ALPINE: \033[1mFAILED\033[21m"
@@ -64,6 +65,7 @@ if [ "x$DOCKERHUB_USERNAME" != "x" ]; then
 fi
 
 docker tag ${LATEST_TAG} ${REPO}:latest
+docker image ls -a
 echo -e "\033[0;34mAll done. Pushing changes."
 docker push ${REPO}
 
